@@ -7,7 +7,7 @@ function Send-GetRequest($Uri)
     $SessionToken = Get-SessionToken
 
     return Invoke-RestMethod `
-        -Uri $CreateUri `
+        -Uri $Uri `
         -Method Get `
         -ContentType $Accepts `
         -Headers @{ Accepts = $Accepts; Authentication = $SessionToken; }
@@ -18,7 +18,7 @@ function Send-PostRequest($Uri, $Body)
     $SessionToken = Get-SessionToken
 
     return Invoke-RestMethod `
-        -Uri $CreateUri `
+        -Uri $Uri `
         -Method Post `
         -ContentType $Accepts `
         -Headers @{ Accepts = $Accepts; Authentication = $SessionToken; } `
