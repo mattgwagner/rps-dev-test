@@ -25,16 +25,27 @@ function Send-PostRequest($Uri, $Body)
         -Body (ConvertTo-Json $Body)
 }
 
-function Get-SessionToken($EmailAddress, $Password)
+function Get-SessionToken
 {
-    $JSON = @{ EmailAddress = $EmailAddress; Password = $Password; }
+    if(!$Global:SessionToken)
+    {
+        $Creds = Get-Credential
+        
+        $JSON = @{ EmailAddress = $Creds.UserName; Password = $Creds.GetNetworkCredential().Password; }
 
-    return Invoke-RestMethod `
-        -Uri ($Endpoint + "/Session") `
-        -Method Post `
-        -ContentType $Accepts `
-        -Headers @{ Accepts = $Accepts; } `
-        -Body (ConvertTo-Json $JSON)
+        $Response = Invoke-RestMethod `
+            -Uri ($Endpoint + "/Session") `
+            -Method Post `
+            -ContentType $Accepts `
+            -Headers @{ Accepts = $Accepts; } `
+            -Body (ConvertTo-Json $JSON)
+
+            # TODO Handle session expiration
+
+        $Global:SessionToken = $Response.SessionCypher;
+    }
+
+    return $Global:SessionToken;
 }
 
 Export-ModuleMember -Function @('Get-SessionToken', 'Send-GetRequest', 'Send-PostRequest') -Variable @('Endpoint', 'Accepts')
