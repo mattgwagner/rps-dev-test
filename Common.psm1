@@ -27,7 +27,7 @@ function Send-PostRequest($Uri, $Body)
 
 function Get-SessionToken($EmailAddress, $Password)
 {
-    $JSON = ConvertTo-JSON @{ EmailAddress = $EmailAddress; Password = $Password; }
+    $JSON = @{ EmailAddress = $EmailAddress; Password = $Password; }
 
     $Response = Send-PostRequest -Uri ($Endpoint + "/Session") -Body $JSON
 
