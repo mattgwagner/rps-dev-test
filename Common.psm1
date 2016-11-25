@@ -10,7 +10,7 @@ function Send-GetRequest($Uri)
         -Uri $Uri `
         -Method Get `
         -ContentType $Accepts `
-        -Headers @{ Accepts = $Accepts; Authentication = $SessionToken; }
+        -Headers @{ Accepts = $Accepts; Authorization = $SessionToken; }
 }
 
 function Send-PostRequest($Uri, $Body)
@@ -21,7 +21,7 @@ function Send-PostRequest($Uri, $Body)
         -Uri $Uri `
         -Method Post `
         -ContentType $Accepts `
-        -Headers @{ Accepts = $Accepts; Authentication = $SessionToken; } `
+        -Headers @{ Accepts = $Accepts; Authorization = $SessionToken; } `
         -Body (ConvertTo-Json $Body)
 }
 
