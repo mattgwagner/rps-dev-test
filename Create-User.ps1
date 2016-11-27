@@ -5,7 +5,7 @@ param(
 
 $Here = "$(Split-Path -parent $MyInvocation.MyCommand.Definition)"
 
-Import-Module Common
+Import-Module "$Here\Common.psm1"
 
 $CreateUri = $Endpoint + "/User"
 
