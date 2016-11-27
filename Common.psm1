@@ -29,9 +29,12 @@ function Get-SessionToken($EmailAddress, $Password)
 {
     $JSON = @{ EmailAddress = $EmailAddress; Password = $Password; }
 
-    $Response = Send-PostRequest -Uri ($Endpoint + "/Session") -Body $JSON
-
-    return $Response
+    return Invoke-RestMethod `
+        -Uri ($Endpoint + "/Session") `
+        -Method Post `
+        -ContentType $Accepts `
+        -Headers @{ Accepts = $Accepts; } `
+        -Body (ConvertTo-Json $JSON)
 }
 
 Export-ModuleMember -Function @('Get-SessionToken', 'Send-GetRequest', 'Send-PostRequest') -Variable @('Endpoint', 'Accepts')
