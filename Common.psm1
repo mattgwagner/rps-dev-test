@@ -25,11 +25,9 @@ function Send-PostRequest($Uri, $Body)
         -Body (ConvertTo-Json $Body)
 }
 
-function Get-SessionToken
+function Get-SessionToken($EmailAddress, $Password)
 {
-	$Creds = Get-Credential
-
-    $JSON = @{ EmailAddress = $Creds.UserName; Password = $Creds.GetNetworkCredential().Password; }
+    $JSON = ConvertTo-JSON @{ EmailAddress = $EmailAddress; Password = $Password; }
 
     $Response = Send-PostRequest -Uri ($Endpoint + "/Session") -Body $JSON
 
